@@ -1,6 +1,7 @@
 Branch Manager Address Book
 ===========================
-To run all the test: `gradle test`
+You will need to have gradle installed in your computer
+To run all the tests: `gradle test`
 
 Acceptance Criteria
 -------------------
