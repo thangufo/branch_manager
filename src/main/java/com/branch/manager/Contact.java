@@ -36,6 +36,7 @@ public class Contact implements Comparable<Contact> {
     public String toString() {
         return "Name: "+this.name
                 +"\n"+"Phone: "+this.phone
+                +"\n"
                 ;
     }
 }
