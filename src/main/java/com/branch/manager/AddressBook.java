@@ -1,6 +1,9 @@
 package com.branch.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by thangnguyen on 8/1/16.
@@ -52,11 +55,37 @@ public class AddressBook {
     }
 
     /**
-     * Convert a address book object to string
+     * Print all contacts ordered by name alphabetically
      *
      * @return
      */
-    public String toString() {
+    public String printContacts() {
+        //copy the current contact list for sorting purposes
+        ArrayList<Contact> contacts = new ArrayList<>(this.contacts);
+        Collections.sort(contacts);
+        return this.printContactList(contacts);
+    }
+
+    /**
+     *
+     * @param otherBook
+     * @return
+     */
+    public String printUniqueContacts(AddressBook otherBook) {
+        Set<Contact> set = new HashSet<>();
+        set.addAll(this.contacts);
+        set.addAll(otherBook.getContacts());
+
+        return this.printContactList(new ArrayList<>(set));
+    }
+
+    /**
+     * Convert a list of contacts to string
+     *
+     * @param contacts
+     * @return
+     */
+    private String printContactList(ArrayList<Contact> contacts) {
         StringBuilder result = new StringBuilder();
         for (Contact contact : contacts) {
             result.append(contact.toString() + "\n");

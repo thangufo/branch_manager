@@ -3,81 +3,39 @@ package com.branch.manager;
 /**
  * Created by thangnguyen on 8/1/16.
  */
-public class Contact {
+public class Contact implements Comparable<Contact> {
     private String name;
-    private String workPhone;
-    private String mobilePhone;
-    private String address;
+    private String phone;
 
-    /**
-     *
-     * @return
-     */
+    public Contact(String name, String phone) {
+        this.name = name;
+        this.phone = phone;
+    }
+
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @param name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getWorkPhone() {
-        return workPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    /**
-     *
-     * @param workPhone
-     */
-    public void setWorkPhone(String workPhone) {
-        this.workPhone = workPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-    /**
-     *
-     * @param mobilePhone
-     */
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     *
-     * @param address
-     */
-    public void setAddress(String address) {
-        this.address = address;
+    @Override
+    public int compareTo(Contact contact) {
+        return (this.getName().compareToIgnoreCase(contact.getName()));
     }
 
     public String toString() {
         return "Name: "+this.name
-                +"\n"+"Work phone: "+this.workPhone
-                +"\n"+"Mobile phone: "+this.mobilePhone
-                +"\n"+"Address: "+this.address
+                +"\n"+"Phone: "+this.phone
                 ;
     }
 }
