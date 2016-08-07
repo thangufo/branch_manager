@@ -1,42 +1,39 @@
 package com.branch.manager;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.testng.Assert.*;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 /**
  * Created by thangnguyen on 8/1/16.
  */
+@Test
 public class AddressBookTest {
     private AddressBook addressBook;
     private Contact contact1;
     private Contact contact2;
+    private Contact contact3;
 
-    @Before
+    @BeforeMethod
     public void initObjects() {
         this.addressBook = new AddressBook();
 
-        this.contact1 = new Contact();
-        this.contact1.setName("Test contact 1");
-        this.contact1.setMobilePhone("012345678");
-        this.contact1.setWorkPhone("012345678");
-        this.contact1.setAddress("Melbourne");
-
-        this.contact2 = new Contact();
-        this.contact2.setName("Test contact 2");
-        this.contact2.setMobilePhone("87654321");
-        this.contact2.setWorkPhone("87654321");
-        this.contact2.setAddress("Sydney");
+        this.contact1 = new Contact("Thang Nguyen","123456789");
+        this.contact2 = new Contact("John","987654321");
+        this.contact3 = new Contact("Andrew","567891234");
     }
 
     @Test
     public void testAddContact() {
         //test adding null contact
         this.addressBook.addContact(null);
-        Assert.assertEquals(0, this.addressBook.getContacts().size());
+        assertEquals(this.addressBook.getContacts().size(),0);
 
         this.addressBook.addContact(this.contact1);
-        Assert.assertEquals(1, this.addressBook.getContacts().size());
+        assertEquals(this.addressBook.getContacts().size(),1);
     }
 
     @Test
@@ -44,22 +41,47 @@ public class AddressBookTest {
         //add contact1 and then try to remove contact2
         this.addressBook.addContact(this.contact1);
         this.addressBook.removeContact(this.contact2);
-        Assert.assertEquals(1, this.addressBook.getContacts().size());
+        assertEquals(this.addressBook.getContacts().size(),1);
 
         //now remove contact1
         this.addressBook.removeContact(this.contact1);
-        Assert.assertEquals(0, this.addressBook.getContacts().size());
+        assertEquals(this.addressBook.getContacts().size(),0);
     }
 
     @Test
-    public void testToString() {
-        this.addressBook.addContact(this.contact1);
-        this.addressBook.addContact(this.contact2);
+    public void testGetSortedContacts() {
+        this.addressBook.addContact(contact1);
+        this.addressBook.addContact(contact2);
+        this.addressBook.addContact(contact3);
 
-        String string = this.addressBook.toString();
-        Assert.assertNotEquals(-1, string.indexOf("Test contact 1"));
-        Assert.assertNotEquals(-1, string.indexOf("Test contact 2"));
-        Assert.assertNotEquals(-1, string.indexOf("012345678"));
-        Assert.assertNotEquals(-1, string.indexOf("87654321"));
+        ArrayList<Contact> sortedContacts = this.addressBook.getSortedContacts();
+        assertEquals(sortedContacts.size(), 3);
+        assertEquals(sortedContacts.get(0).getName(),"Andrew");
+        assertEquals(sortedContacts.get(1).getName(), "John");
+        assertEquals(sortedContacts.get(2).getName(),"Thang Nguyen");
+    }
+
+    @Test
+    public void testGetUniqueContacts() {
+        this.addressBook.addContact(contact1);
+        this.addressBook.addContact(contact1);
+        AddressBook otherBook = new AddressBook();
+        otherBook.addContact(contact2);
+        otherBook.addContact(contact2);
+
+        ArrayList<Contact> uniqueContacts = this.addressBook.getUniqueContacts(otherBook);
+        assertEquals(uniqueContacts.size(),2);
+    }
+
+    @Test
+    public void testPrintContactList() {
+        this.addressBook.addContact(contact1);
+        this.addressBook.addContact(contact2);
+        this.addressBook.addContact(contact3);
+
+        String result = this.addressBook.printContactList(this.addressBook.getContacts());
+        assertNotEquals(result.indexOf("Thang Nguyen"),-1);
+        assertNotEquals(result.indexOf("Andrew"),-1);
+        assertNotEquals(result.indexOf("John"),-1);
     }
 }

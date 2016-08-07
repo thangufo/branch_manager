@@ -59,11 +59,11 @@ public class AddressBook {
      *
      * @return
      */
-    public String printContacts() {
+    public ArrayList<Contact> getSortedContacts() {
         //copy the current contact list for sorting purposes
         ArrayList<Contact> contacts = new ArrayList<>(this.contacts);
         Collections.sort(contacts);
-        return this.printContactList(contacts);
+        return contacts;
     }
 
     /**
@@ -71,12 +71,12 @@ public class AddressBook {
      * @param otherBook
      * @return
      */
-    public String printUniqueContacts(AddressBook otherBook) {
+    public ArrayList<Contact> getUniqueContacts(AddressBook otherBook) {
         Set<Contact> set = new HashSet<>();
         set.addAll(this.contacts);
         set.addAll(otherBook.getContacts());
 
-        return this.printContactList(new ArrayList<>(set));
+        return new ArrayList<>(set);
     }
 
     /**
@@ -85,7 +85,7 @@ public class AddressBook {
      * @param contacts
      * @return
      */
-    private String printContactList(ArrayList<Contact> contacts) {
+    public String printContactList(ArrayList<Contact> contacts) {
         StringBuilder result = new StringBuilder();
         for (Contact contact : contacts) {
             result.append(contact.toString() + "\n");

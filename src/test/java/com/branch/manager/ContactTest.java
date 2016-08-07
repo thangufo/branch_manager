@@ -1,33 +1,33 @@
 package com.branch.manager;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.testng.Assert.*;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * Created by thangnguyen on 8/1/16.
  */
+@Test
 public class ContactTest {
-    private Contact contact1;
-    @Before
-    public void initObjects() {
-        this.contact1 = new Contact();
-        contact1.setName("Test contact 1");
-        contact1.setMobilePhone("012345678");
-        contact1.setWorkPhone("012345678");
-        contact1.setAddress("Melbourne");
+    @DataProvider(name = "testData")
+    public static Object[][] testData() {
+        return new Object[][] {{"Thang Nguyen", "123456789"}, {"Andrew", "987654321"}};
     }
 
-    @Test
-    public void testSetGet(){
-        Assert.assertEquals("Test contact 1",contact1.getName());
-        Assert.assertEquals("012345678",contact1.getMobilePhone());
+    @Test(dataProvider = "testData")
+    public void testSetGet(String name, String phone){
+        Contact contact1 = new Contact(name,phone);
+        assertEquals(contact1.getName(),name);
+        assertEquals(contact1.getPhone(),phone);
     }
 
-    @Test
-    public void testToString() {
+    @Test(dataProvider = "testData")
+    public void testToString(String name, String phone) {
+        Contact contact1 = new Contact(name,phone);
+
         String string = contact1.toString();
-        Assert.assertNotEquals(-1,string.indexOf("Melbourne"));
-        Assert.assertNotEquals(-1, string.indexOf("012345678"));
+        assertNotEquals(string.indexOf(name),-1);
+        assertNotEquals(string.indexOf(phone),-1);
     }
 }
